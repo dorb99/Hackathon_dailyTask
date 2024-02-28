@@ -1,53 +1,58 @@
-
-
-const Question = require("../schemas/questionsSchema")
+const Question = require("../schemas/questionsSchema");
 
 exports.createQuestion = async (req, res) => {
-    try {
-const newQuestion = await Question.create({...req.body});
-        res.send(newQuestion);
-    } catch (error) {
-      res.send(error);
-    }
-  };
+  const { question, answers, correctAnswer } = req.body;
+  if (!question || !answers || !correctAnswer)
+    return res.status(404).send("question inccorrect");
+  try {
+    const newQuestion = await Question.create({
+      question,
+      answers,
+      correctAnswer,
+    });
+    if (!newQuestion) return res.status(404).send("question inccorrect");
+    else res.status(200).send("question created successfully");
+  } catch (error) {
+    res.send(error);
+  }
+};
 
-exports.findAllQuestions= async (req, res)=> {
-    
-    try{
+exports.findAllQuestions = async (req, res) => {
+  try {
     const allQuestions = await Question.find({});
     res.send(allQuestions);
-    } catch(error){
-    res.send(error)
-    }
-}
-exports.findQuestionsById= async (req, res)=> {
-    
-    try{
-    const allQuestions = await Question.findById({});
-    res.send(allQuestions);
-    } catch(error){
-    res.send(error)
-    }
-}
+  } catch (error) {
+    res.send(error);
+  }
+};
+exports.findQuestion = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const question = await Question.findById({ id });
+    res.status(200).send(question);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 exports.findAndUpdateQuestion = async (req, res) => {
+  try {
+    const updatedQustion = await Question.findOneAndUpdate(
+      { qustion: req.body.question },
+      req.body,
+      { new: true }
+    );
+    res.send(updatedQustion);
+  } catch (error) {
+    res.send(error);
+  }
+};
 
-    try {
-        const updatedQustion = await Question.findOneAndUpdate(
-            { qustion: req.body.question },
-            req.body, 
-            { new: true } 
-          );
-      res.send(updatedQustion);
-    } catch (error) {
-      res.send(error);
-    }
-  };
-
- 
 exports.findAndDeleteQuestion = async (req, res) => {
   try {
-    const replacedQuestion = await Question.findOneAndDelete({question: req.body.question})
+    const replacedQuestion = await Question.findOneAndDelete({
+      question: req.body.question,
+    });
     res.send(replacedQuestion);
   } catch (error) {
     res.send(error);

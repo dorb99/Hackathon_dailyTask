@@ -1,27 +1,27 @@
-import React from 'react'
+import React, { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./createQuestionPage.css";
-
+import { UserContext } from "../../components/userContext";
 
 const createQuestionPage = () => {
-    const [newQustion, setNewQuestion] = useState({
-        question: "",
-        answers: [],
-        correctAnswer: "",
-      });
+  const [newQustion, setNewQuestion] = useState({
+    question: "",
+    answers: [],
+    correctAnswer: "",
+  });
+  const { addQuestionAction } = useContext(UserContext);
 
-    const handleSent = (e) => {
-        e.preventDefault();
-        console.log(newQustion);
-
-    }
+  const handleSent = (e) => {
+    e.preventDefault();
+    addQuestionAction(newQustion);
+  };
 
   return (
-<div className="page">
+    <div className="page">
       <div className="login_Container">
         <h2 className="header">Hi!</h2>
-        <p className="smallP">Enter your qustion here  </p>
+        <p className="smallP">Enter your qustion here </p>
         <form onSubmit={handleSent}>
           <input
             type="text"
@@ -104,7 +104,7 @@ const createQuestionPage = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default createQuestionPage
+export default createQuestionPage;
