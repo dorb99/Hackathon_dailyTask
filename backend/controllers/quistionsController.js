@@ -24,15 +24,18 @@ exports.findAllQuestions= async (req, res)=> {
 exports.findAndUpdateQuestion = async (req, res) => {
 
     try {
-      const updatedQuestion = await Question.findOneAndUpdate(req.body.Question, req.body, {
-        new: true,
-      });
-      res.send(updatedQuestion);
+        const updatedQustion = await Question.findOneAndUpdate(
+            { qustion: req.body.question },
+            req.body, 
+            { new: true } 
+          );
+      res.send(updatedQustion);
     } catch (error) {
       res.send(error);
     }
   };
 
+ 
 exports.findAndDeleteQuestion = async (req, res) => {
   try {
     const replacedQuestion = await Question.findOneAndDelete({question: req.body.question})

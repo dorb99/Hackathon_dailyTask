@@ -27,6 +27,11 @@ const io = new Server(server, {
     origin: URL,
   },
 });
+const userRouets = require('./routes/userRoute')
+const questionRouets = require('./routes/questionRoute')
+app.use('/api/user' , userRouets)
+app.use('/api/question' , questionRouets)
+
 
 io.on("connection", (socket) => {
   console.log("user connected: " + socket.id);
@@ -35,5 +40,6 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
   console.log("server listening on " + PORT);
 });
+
 
 module.exports = io;

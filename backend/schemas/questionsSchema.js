@@ -3,7 +3,7 @@
 const mongoose = require('mongoose')
 const newQuestion = new mongoose.Schema(
     {
-       qustion:{
+       question:{
         type:String,
         required:true
        },
