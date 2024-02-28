@@ -8,6 +8,7 @@ import CreateQuestionPage from "./pages/questionPages/createQuestionPage";
 import QuestionPresentPage from "./pages/questionPages/questionPresentPage";
 import { UserContext } from "./components/userContext";
 import { useContext } from "react";
+import NavBar from "./pages/navBar/navBar"
 
 function App() {
   const socket = io.connect("http://localhost:3004");
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <div className="page">
+      <NavBar/>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/userHome" element={<UserPage />} />

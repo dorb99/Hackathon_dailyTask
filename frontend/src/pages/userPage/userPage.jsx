@@ -2,20 +2,20 @@ import { useContext, useState } from "react";
 import "./userPage.css";
 
 import { useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../../components/userContext";
 
 
 function UserPage() {
   const [userName, setUserName] = useState();
   const navigate = useNavigate();
 
-  const location = useLocation();
-  const { info } = location.state;
+
   const { userInfo } = useContext(UserContext);
 
   const handleLogin = () => {
     navigate("/userHome");
   };
-  console.log(info);
+
   return (
     <div className="page">
       <div className="login_Container">
