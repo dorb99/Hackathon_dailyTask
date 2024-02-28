@@ -1,3 +1,4 @@
+
 import React, { useContext ,useEffect} from "react";
 import { useState } from "react";
 import { UserContext } from "../../components/userContext";
@@ -10,6 +11,8 @@ const questionPresentPage = (props) => {
     answers: ["8", "5", "4", "1231"],
     correctAnswer: "2",
   };
+  const location = useLocation();
+  const { question } = location.state;
   const [buttonClicked, setButtonClicked] = useState(false);
 const [buttonColor, setButtonColor] = useState(["", "", "",""]);
 
@@ -32,10 +35,18 @@ const handleClick = (place) => {
 
 
 
+
+
+  
+
+
+
+
   
   return (
     <div className="page">
       <div className="login_Container">
+
         <h2 className="header"> {userInfo?.classes}</h2>
         <p className="smallP">Hello {userInfo?.fullName}</p>
         <div className="answer_Container">
@@ -52,9 +63,11 @@ const handleClick = (place) => {
             {question.answers[3]}
           </button>
         </div>
+
       </div>
     </div>
   );
 };
+
 
 export default questionPresentPage;

@@ -5,11 +5,11 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-
 app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
 
+const allQuestions = {};
 dotenv.config({ path: "./.env" });
 const DB = process.env.MONGODB_URL;
 const URL = process.env.CLIENT_URL;
@@ -27,19 +27,36 @@ const io = new Server(server, {
     origin: URL,
   },
 });
-const userRouets = require('./routes/userRoute')
-const questionRouets = require('./routes/questionRoute')
-app.use('/api/user' , userRouets)
-app.use('/api/question' , questionRouets)
+const userRouets = require("./routes/userRoute");
+const questionRouets = require("./routes/questionRoute");
+app.use("/api/user", userRouets);
+app.use("/api/question", questionRouets);
 
-
+//liseners
 io.on("connection", (socket) => {
   console.log("user connected: " + socket.id);
+
+  socket.on("send_Quesion", (info) => {
+    const room = info.room;
+    const question = info.question;
+    socket.to(room).emit(question);
+  });
+
+  socket.on("enter_Room", (classId) => {
+    socket.join(classId);
+    if (messages[classId]) {
+      io.to(classId).emit("latestQuestion", messages[classId]);
+    }
+  });
+
+  socket.on("send_Quesion", (info) => {
+    const room = info.room;
+    const question = info.question;
+    messages[room] = question;
+    socket.to(room).emit(question);
+  });
 });
 
 server.listen(PORT, () => {
   console.log("server listening on " + PORT);
 });
-
-
-module.exports = io;

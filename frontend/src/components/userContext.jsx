@@ -12,7 +12,9 @@ const UserProvider = ({ children }) => {
   const enterUser = (Info) => {
     localStorage.setItem("userInfo", JSON.stringify(Info.username));
     setUserInfo(Info);
-    
+
+    navigate("/userHome", { state: { info: "hi its working" } });
+
   };
 
   const createUserAction = async (newUser) => {
@@ -84,8 +86,8 @@ const getByUserName = async(username)=>{
     }
   };
 
-  const addClass = async (classNum) => {
-    const info = { class: classNum, username: userInfo?.username };
+  const addClass = async (classRoom) => {
+    const info = { class: classRoom, username: userInfo?.username };
     try {
       const response = await axios.post(`${URL}/api/user/addClasse`, info);
       if (response.status === 200) console.log(response.data);
@@ -119,6 +121,7 @@ const getByUserName = async(username)=>{
     // varibales
     userInfo,
     setUserInfo,
+    URL,
 
     // actions
     createUserAction,
