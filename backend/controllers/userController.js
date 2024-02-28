@@ -92,7 +92,7 @@ exports.answerQuestion = async (req, res) => {
     return res.status(404).send("invalid data");
   try {
     const updatedUser = await User.findOneAndUpdate(
-      { username: userId },
+      { _id: userId },
       {
         $push: {
           questions: {

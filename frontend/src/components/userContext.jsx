@@ -10,11 +10,16 @@ const UserProvider = ({ children }) => {
   const URL = import.meta.env.VITE_SERVER_URL;
 
   const enterUser = (Info) => {
+    
     localStorage.setItem("userInfo", JSON.stringify(Info.username));
     setUserInfo(Info);
-
     navigate("/userHome", { state: { info: "hi its working" } });
 
+  };
+  const updateUser = (Info) => {
+    
+    localStorage.setItem("userInfo", JSON.stringify(Info.username));
+    setUserInfo(Info);
   };
 
   const createUserAction = async (newUser) => {
@@ -52,7 +57,7 @@ const getByUserName = async(username)=>{
     if (response.status === 403) {
       return alert(`Username incorrect `);
     } else if (response.status === 200) {
-      enterUser(response.data);
+      updateUser(response.data);
     
     }
   } catch (error) {
@@ -74,13 +79,14 @@ const getByUserName = async(username)=>{
     const answer = {
       answer: info.answer,
       questionId: info.questionId,
-      userId: userInfo?.id,
+      userId: userInfo?._id,
     };
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `${URL}/api/user/answerQuestion`,
         answer
       );
+      console.log(response)
     } catch (error) {
       console.error(error);
     }
@@ -106,6 +112,15 @@ const getByUserName = async(username)=>{
       console.error(error);
     }
   };
+  const logout = async () => {
+    try{
+      localStorage.removeItem("userInfo");
+      setUserInfo();
+      navigate("/");
+    } catch(error){
+      console.log(error);
+    }
+  }
 
   useEffect(
     () => {
@@ -130,6 +145,7 @@ const getByUserName = async(username)=>{
     answerQuestionAction,
     addClass,
     findQuestion,
+    logout
   };
 
   return (
