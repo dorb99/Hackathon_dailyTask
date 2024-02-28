@@ -44,15 +44,15 @@ io.on("connection", (socket) => {
 
   socket.on("enter_Room", (classId) => {
     socket.join(classId);
-    if (messages[classId]) {
-      io.to(classId).emit("latestQuestion", messages[classId]);
+    if (allQuestions[classId]) {
+      io.to(classId).emit("latestQuestion", allQuestions[classId]);
     }
   });
 
   socket.on("send_Quesion", (info) => {
     const room = info.room;
     const question = info.question;
-    messages[room] = question;
+    allQuestions[room] = question;
     socket.to(room).emit(question);
   });
 });

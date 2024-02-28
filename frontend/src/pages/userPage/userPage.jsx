@@ -1,42 +1,79 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./userPage.css";
 
-import { useLocation, useNavigate } from "react-router-dom";
-import { UserContext } from "../../components/userContext";
 
+import { UserContext } from "../../components/userContext";
+import { SocketContext } from "../../components/socketContext";
 
 function UserPage() {
-  const [userName, setUserName] = useState();
-  const navigate = useNavigate();
+  const { userInfo, addClass } = useContext(UserContext);
+  const { enterClassRoom } = useContext(SocketContext);
+  const [classRoom, setClassRoom] = useState("");
+  const [fullTable, setFullTable] = useState(false);
+  const [allClasses, setAllClasses] = useState();
 
 
-  const { userInfo } = useContext(UserContext);
-
-  const handleLogin = () => {
-    navigate("/userHome");
+  const handleAddRoom = (e) => {
+    e.preventDefault();
+    addClass(classRoom);
   };
+  const handleRoomClick = (index) => {
+  };
+  const handleSendQuestion = (index) => {
+  };
+
+  const handleShowStatus = (index) => {
+  };
+
+  useEffect(() => {
+    setAllClasses(userInfo?.classes);
+    console.log(allClasses);
+    return () => {
+      setAllClasses([]);
+    };
+  }, [userInfo]);
+
 
   return (
     <div className="page">
-      <div className="login_Container">
-        {/* <h2 className="header">Welcome!</h2>
-        <p className="pBeforeForm">
-          you can login here, or you can create a new user{" "}
-          <span>right here</span>
-        </p>
-        <form onSubmit={handleLogin}>
+      <div className="Container">
+        <h2 className="header">Hi, {userInfo?.fullName}</h2>
+        <br />
+        <br />
+        <form className="addRoom" onSubmit={handleAddRoom}>
           <input
             type="text"
-            value={userName}
-            className="smallInput"
-            placeholder="userName..."
-            onChange={(e) => setUserName(e.target.value)}
+            required
+            placeholder="Classroom"
+            onChange={(e) => setClassRoom(e.target.value)}
           />
-          <button type="submit" className="submitBtn">
-            Login
-          </button>
-        </form> */}
-        hello
+          <button type="submit">Enter New Classroom</button>
+        </form>
+      </div>
+      <div className="rooms_Container">
+        {userInfo?.role === "student"
+          ? allClasses?.map((element, index) => (
+              <button key={element} onClick={() => handleRoomClick(index)}>
+                {element}
+              </button>
+            ))
+          : userInfo?.role === "teacher"
+          ? allClasses?.map((element, index) => (
+              <div key={element}>
+                <button onClick={() => setFullTable(true)}>{element}</button>
+                {fullTable && (
+                  <div>
+                    <button onClick={() => handleSendQuestion(index)}>
+                      Send Question
+                    </button>
+                    <button onClick={() => handleShowStatus(index)}>
+                      Check Status
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))
+          : null}
       </div>
     </div>
   );

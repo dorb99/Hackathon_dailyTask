@@ -77,7 +77,7 @@ exports.addClass = async (req, res) => {
   try {
     const updatedUser = await User.findOneAndUpdate(
       { username: req.body.username },
-      { $push: { class: req.body.class } },
+      { $push: { classes: req.body.class } },
       { new: true }
     );
     res.send(updatedUser);

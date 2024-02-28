@@ -38,6 +38,7 @@ const questionPresentPage = (props) => {
       setTimeout(() => {
         navigate("/userHome");
       }, 3000);
+
     }
   };
 
