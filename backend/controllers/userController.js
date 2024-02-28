@@ -5,7 +5,7 @@ exports.createUser = async (req, res) => {
     try {
       const UserExists = await User.exists({ fullName: req.body.fullName });
       if (UserExists) {
-        res.send(UserExists);
+        return res.send(UserExists);
       } else {
         const newUser = await User.create({
           ...req.body
