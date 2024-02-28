@@ -21,8 +21,6 @@ exports.findAllQuestions= async (req, res)=> {
     }
 }
 
-
-
 exports.findAndUpdateQuestion = async (req, res) => {
 
     try {
