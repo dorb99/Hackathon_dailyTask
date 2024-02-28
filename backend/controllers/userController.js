@@ -28,7 +28,7 @@ exports.findAllUsers= async (req, res)=> {
 }
 
 exports.userSignIn = async (req, res) => {
-    
+
         try {
             const signedUser = await User.findOne({username: req.body.username }).exec();
             res.send(signedUser);
@@ -39,8 +39,30 @@ exports.userSignIn = async (req, res) => {
 
 exports.findUserByName = async(req, res)=>{
     try{
-
+      const foundUser = await User.findOne({fullName: req.body.fullName}).exec();
+      res.send(foundUser);
     } catch (error) {
-        
+        res.status(500).send(error)
     }
 }
+
+exports.findAndUpdateUser = async (req, res) => {
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(req.body.username, req.body, {
+      new: true,
+    });
+    res.send(updatedUser);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+exports.findAndDeleteUser = async (req, res) => {
+  try {
+    const replacedUser = await User.findOneAndDelete({username: req.body.username})
+    res.send(replacedUser);
+  } catch (error) {
+    res.send(error);
+  }
+};
