@@ -16,10 +16,10 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.findAllUsers = async (req, res) => {
+exports.findAllStudents = async (req, res) => {
   try {
-    const allUser = await User.find({});
-    res.send(allUser);
+    const allStudents = await User.find({ role: 'student' });
+    res.send(allStudents);
   } catch (error) {
     res.send(error);
   }
@@ -75,8 +75,8 @@ exports.findAndDeleteUser = async (req, res) => {
 
 exports.addClass = async (req, res) => {
   try {
-    const updatedUser = await User.findOneAndUpdate(
-      { username: req.body.username },
+    const updatedUser = await User.findByIdAndUpdate(
+      req.body.id,
       { $push: { classes: req.body.class } },
       { new: true }
     );

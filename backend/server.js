@@ -29,8 +29,10 @@ const io = new Server(server, {
 });
 const userRouets = require("./routes/userRoute");
 const questionRouets = require("./routes/questionRoute");
+const roomRouets = require("./routes/roomRoute");
 app.use("/api/user", userRouets);
 app.use("/api/question", questionRouets);
+app.use("/api/room", roomRouets);
 
 //liseners
 io.on("connection", (socket) => {
@@ -44,8 +46,9 @@ io.on("connection", (socket) => {
 
   socket.on("enter_Room", (classId) => {
     socket.join(classId);
+    socket.to(socket.id).emit("entered_room", classId);
     if (allQuestions[classId]) {
-      io.to(classId).emit("latestQuestion", allQuestions[classId]);
+      socket.to(classId).emit("latestQuestion", allQuestions[classId]);
     }
   });
 

@@ -1,20 +1,24 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./createQuestionPage.css";
 import { UserContext } from "../../components/userContext";
 
 const createQuestionPage = () => {
-  const [newQustion, setNewQuestion] = useState({
+  const { addQuestionAction } = useContext(UserContext);
+  const location = useLocation();
+  const room = location.state;
+  // console.log(room)
+  const [newQuestion, setNewQuestion] = useState({
     question: "",
     answers: [],
     correctAnswer: "",
+    roomId: "math12",
   });
-  const { addQuestionAction } = useContext(UserContext);
 
   const handleSent = (e) => {
     e.preventDefault();
-    addQuestionAction(newQustion);
+    addQuestionAction(newQuestion);
   };
 
   return (
@@ -30,7 +34,7 @@ const createQuestionPage = () => {
             placeholder="question..."
             onChange={(e) => {
               e.preventDefault();
-              const addInput = newQustion;
+              const addInput = newQuestion;
               addInput.question = e.target.value;
               setNewQuestion(addInput);
             }}
@@ -42,7 +46,7 @@ const createQuestionPage = () => {
             placeholder="answer1..."
             onChange={(e) => {
               e.preventDefault();
-              const addInput = newQustion;
+              const addInput = newQuestion;
               addInput.answers[0] = e.target.value;
               setNewQuestion(addInput);
             }}
@@ -54,7 +58,7 @@ const createQuestionPage = () => {
             placeholder="answer2..."
             onChange={(e) => {
               e.preventDefault();
-              const addInput = newQustion;
+              const addInput = newQuestion;
               addInput.answers[1] = e.target.value;
               setNewQuestion(addInput);
             }}
@@ -66,7 +70,7 @@ const createQuestionPage = () => {
             placeholder="answer3..."
             onChange={(e) => {
               e.preventDefault();
-              const addInput = newQustion;
+              const addInput = newQuestion;
               addInput.answers[2] = e.target.value;
               setNewQuestion(addInput);
             }}
@@ -78,7 +82,7 @@ const createQuestionPage = () => {
             placeholder="answer4..."
             onChange={(e) => {
               e.preventDefault();
-              const addInput = newQustion;
+              const addInput = newQuestion;
               addInput.answers[3] = e.target.value;
               setNewQuestion(addInput);
             }}
@@ -92,12 +96,11 @@ const createQuestionPage = () => {
             placeholder="correct answer number..."
             onChange={(e) => {
               e.preventDefault();
-              const addInput = newQustion;
+              const addInput = newQuestion;
               addInput.correctAnswer = e.target.value;
               setNewQuestion(addInput);
             }}
           />
-
           <button type="submit" className="submitBtn">
             Sign in
           </button>

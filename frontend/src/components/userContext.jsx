@@ -7,17 +7,16 @@ const UserContext = createContext();
 const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState();
+  const [allStudents, setAllStudents] = useState([]);
   const URL = import.meta.env.VITE_SERVER_URL;
 
   const enterUser = (Info) => {
-    
+    getAllStudents();
     localStorage.setItem("userInfo", JSON.stringify(Info.username));
     setUserInfo(Info);
-    navigate("/userHome", { state: { info: "hi its working" } });
-
+    navigate("/userHome");
   };
   const updateUser = (Info) => {
-    
     localStorage.setItem("userInfo", JSON.stringify(Info.username));
     setUserInfo(Info);
   };
@@ -51,25 +50,35 @@ const UserProvider = ({ children }) => {
       console.error(error);
     }
   };
-const getByUserName = async(username)=>{
-  try {
-    const response = await axios.post(`${URL}/api/user/login`, { username });
-    if (response.status === 403) {
-      return alert(`Username incorrect `);
-    } else if (response.status === 200) {
-      updateUser(response.data);
-    
+
+  const getByUserName = async (username) => {
+    try {
+      const response = await axios.post(`${URL}/api/user/login`, { username });
+      if (response.status === 403) {
+        return alert(`Username incorrect `);
+      } else if (response.status === 200) {
+        updateUser(response.data);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
+  };
 
   const addQuestionAction = async (question) => {
+    console.log(question);
     try {
       const response = await axios.post(`${URL}/api/question/create`, question);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAllStudents = async (question) => {
+    try {
+      const response = await axios.get(`${URL}/api/user/findAllStudents`);
+      setAllStudents(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -86,14 +95,14 @@ const getByUserName = async(username)=>{
         `${URL}/api/user/answerQuestion`,
         answer
       );
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const addClass = async (classRoom) => {
-    const info = { class: classRoom, username: userInfo?.username };
+  const addClass = async (classRoom, student) => {
+    const info = { class: classRoom, id: student };
     try {
       const response = await axios.patch(`${URL}/api/user/addClass`, info);
       if (response.status === 200) console.log(response.data);
@@ -113,18 +122,20 @@ const getByUserName = async(username)=>{
     }
   };
   const logout = async () => {
-    try{
+    try {
       localStorage.removeItem("userInfo");
       setUserInfo();
       navigate("/");
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(
     () => {
-      const checkId = JSON.parse(localStorage.getItem("userInfo", JSON.stringify()));
+      const checkId = JSON.parse(
+        localStorage.getItem("userInfo", JSON.stringify())
+      );
       if (checkId) getByUserName(checkId);
       else navigate("/");
     },
@@ -137,6 +148,7 @@ const getByUserName = async(username)=>{
     userInfo,
     setUserInfo,
     URL,
+    allStudents,
 
     // actions
     createUserAction,
@@ -145,7 +157,7 @@ const getByUserName = async(username)=>{
     answerQuestionAction,
     addClass,
     findQuestion,
-    logout
+    logout,
   };
 
   return (

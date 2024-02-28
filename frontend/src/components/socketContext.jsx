@@ -11,19 +11,28 @@ const SocketProvider = ({ children }) => {
   const socket = Socket();
   const [question, setQuestion] = useState({});
   const { userInfo, addClass } = useContext(UserContext);
+  const URL = import.meta.env.VITE_SERVER_URL;
 
-  const enterClassRoom = async (classId) => {
-    if (userInfo.role === "student" || userInfo.role === "teacher") {
-      userInfo.classes.forEach((currentClass) => {
-        if (classId === currentClass) socket_EnterRoom(classId);
-        else {
-          addClass(classId);
-          socket_EnterRoom(classId);
-        }
-      });
-    } else return console.log("no userInfo role");
+  const createClassRoom = async (info) => {
+    const { classRoom, students } = info;
+    students.forEach((student) => {
+      addClass(classRoom, student);
+    });
+    addClass(classRoom, userInfo._id);
+    const room = { roomId: classRoom, students, teacher: userInfo._id };
+    try {
+      const response = await axios.post(`${URL}/api/room/create`, room);
+      if (response.status === 200) return console.log(response);
+    } catch {
+      (error) => {
+        console.log(error);
+      };
+    }
   };
 
+  const enterClassRoom = async (classId) => {
+    socket_EnterRoom(classId);
+  };
   const leaveClassRoom = async (classId) => {
     socket_LeaveRoom(classId);
   };
@@ -56,6 +65,7 @@ const SocketProvider = ({ children }) => {
     };
     socket.on("new_Question", handleNewQuestion);
     socket.on("latestMessage", handleLastQuestion);
+    socket.on("entered_room", (classId) => console.log(classId));
 
     return () => {
       socket.off("new_Question", handleNewQuestion);
@@ -71,6 +81,7 @@ const SocketProvider = ({ children }) => {
     enterClassRoom,
     sendQuestion,
     leaveClassRoom,
+    createClassRoom,
   };
 
   return (
