@@ -11,7 +11,7 @@ const newUser = new mongoose.Schema(
             type:String,
             required:true
         },
-        class:{
+        classes:{
             type:[String]
         },
         role:{
