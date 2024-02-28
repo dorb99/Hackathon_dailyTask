@@ -5,14 +5,12 @@ import { UserContext } from "../../components/userContext";
 
 function HomePage() {
   const [username, setUsername] = useState("");
-  const { loginUserAction,userinfo } = useContext(UserContext);
+  const { loginUserAction } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-     loginUserAction(username);
-   
-
+    loginUserAction(username);
   };
   const handleNewUser = () => {
     navigate("/signinPage");
