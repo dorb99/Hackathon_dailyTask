@@ -2,12 +2,19 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { UserContext } from "../../components/userContext";
 import "./questionPresentPage.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const questionPresentPage = (props) => {
-  const { userInfo } = useContext(UserContext);
-  const location = useLocation();
-  const { question } = location.state;
+  const { userInfo, answerQuestionAction } = useContext(UserContext);
+  //   const location = useLocation();
+  //   const { question } = location.state
+  const question = {
+    id: "65df43efbdeab5092c52e7ce",
+    question: "what is 2+2",
+    answers: ["8", "5", "4", "1231"],
+    correctAnswer: "2",
+  };
+  const navigate = useNavigate();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [buttonColor, setButtonColor] = useState(["", "", "", ""]);
 
@@ -17,12 +24,21 @@ const questionPresentPage = (props) => {
       updatedColor[place - 1] = "green";
       setButtonColor(updatedColor);
       setButtonClicked(true);
+      answerQuestionAction({ answer: place, questionId: question.id });
+      setTimeout(() => {
+        navigate("/userHome");
+      }, 3000);
     } else {
       const updatedColor = [...buttonColor];
       updatedColor[question?.correctAnswer - 1] = "green";
       updatedColor[place - 1] = "red";
       setButtonColor(updatedColor);
       setButtonClicked(true);
+      answerQuestionAction({ answer: place, questionId: question.id });
+      setTimeout(() => {
+        navigate("/userHome");
+      }, 3000);
+
     }
   };
 
