@@ -1,14 +1,15 @@
 const Question = require("../schemas/questionsSchema");
 
 exports.createQuestion = async (req, res) => {
-  const { question, answers, correctAnswer } = req.body;
-  if (!question || !answers || !correctAnswer)
+  const { question, answers, correctAnswer, roomId } = req.body;
+  if (!question || !answers || !correctAnswer || !roomId)
     return res.status(404).send("question inccorrect");
   try {
     const newQuestion = await Question.create({
       question,
       answers,
       correctAnswer,
+      roomId,
     });
     if (!newQuestion) return res.status(404).send("question inccorrect");
     else res.status(200).send("question created successfully");

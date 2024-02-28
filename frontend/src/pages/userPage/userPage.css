@@ -2,39 +2,95 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-y: scroll;
+  padding: 6rem;
+}
+.checkboxInput.active {
+  background-color: #00ff00; /* Set the color you want for the active state */
+  color: #000; /* Set the text color for the active state */
+  /* Add any other styles for the active state */
 }
 
 .addRoom {
-  padding: 12px;
+  padding: 16px;
   margin: 10px;
   width: fit-content;
-  background-color: rgba(143, 140, 136, 0.7);
+  background-color: rgba(143, 140, 136, 0.8);
   border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-input {
-  margin-bottom: 10px;
-  padding: 8px;
+.addRoom input {
+  margin-bottom: 12px;
+  padding: 10px;
   width: 100%;
+  border: 1px solid #ccc;
   border-radius: 12px;
   box-sizing: border-box;
-  color: darkgray;
-}
-input:focus {
-  outline: none;
 }
 
-.rooms_Container {
+.addRoom input:focus {
+  outline: none;
+  border-color: #ededed;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.maping_Container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
-  background-color: rgba(143, 140, 136, 0.7);
+  background-color: rgba(143, 140, 136, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-top: 20px;
 }
 
-/* Optional: Add more styling for the fullTable section */
 .rooms_Container > div {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.button-room-form {
+  overflow-y: scroll;
+  height: 14rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.checkboxInput {
+  color: #fff;
+  width: 8rem;
+  margin: 2px;
+  font-size: small;
+}
+.classRoom{
+  margin: 4px;
+}
+.createOption{
+  color: #ffffff;
+  width: fit-content;
+  margin: 3px;
+  font-size: medium;
+}
+.createOption:focus {
+  outline: none;
+}
+
+/* Optional: Style for scroll bar */
+.button-room-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.button-room-form::-webkit-scrollbar-thumb {
+  background-color: #5c5c5c;
+  border-radius: 4px;
+}
+
+.button-room-form::-webkit-scrollbar-track {
+  background-color: rgba(143, 140, 136, 0.5);
+  border-radius: 8px;
 }

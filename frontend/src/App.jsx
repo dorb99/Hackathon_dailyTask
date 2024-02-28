@@ -15,7 +15,7 @@ function App() {
   const { userInfo } = useContext(UserContext);
 
   return (
-    <div className="page">
+    <div className="appCountainer">
       <NavBar/>
       <Routes>
         <Route path="/" element={<HomePage />} />
