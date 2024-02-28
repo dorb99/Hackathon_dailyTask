@@ -10,9 +10,9 @@ const UserProvider = ({ children }) => {
   const URL = import.meta.env.VITE_SERVER_URL;
 
   const enterUser = (Info) => {
-    localStorage.setItem("userInfo", JSON.stringify(Info._id));
+    localStorage.setItem("userInfo", JSON.stringify(Info.username));
     setUserInfo(Info);
-    navigate("/userHome");
+    
   };
 
   const createUserAction = async (newUser) => {
@@ -20,13 +20,8 @@ const UserProvider = ({ children }) => {
       const response = await axios.post(`${URL}/api/user/create`, newUser);
       if (response.status === 402) return alert("username already in use");
       else if (response.status === 200) {
-
-        console.log(response.data);
-        setUserInfo(response.data);
-        navigate("/userHome");
-
         enterUser(response.data);
-
+        navigate("/userHome");
       }
     } catch {
       (error) => {
@@ -39,21 +34,31 @@ const UserProvider = ({ children }) => {
     try {
       const response = await axios.post(`${URL}/api/user/login`, { username });
       if (response.status === 403) {
-        return alert("Username incorrect");
+        return alert(`Username incorrect `);
       } else if (response.status === 200) {
-
-        console.log(response.data);
-        setUserInfo(response.data);
-        navigate("/userHome");
-        
-
         enterUser(response.data);
-
+        console.log(response.data);
+        navigate("/userHome");
       }
     } catch (error) {
       console.error(error);
     }
   };
+const getByUserName = async(username)=>{
+  try {
+    const response = await axios.post(`${URL}/api/user/login`, { username });
+    if (response.status === 403) {
+      return alert(`Username incorrect `);
+    } else if (response.status === 200) {
+      enterUser(response.data);
+    
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 
   const addQuestionAction = async (question) => {
     try {
@@ -100,11 +105,15 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const checkId = localStorage.getItem("userInfo", JSON.stringify());
-    if (checkId) loginUserAction(checkId);
-    else navigate("/");
-  }, []);
+  useEffect(
+    () => {
+      const checkId = JSON.parse(localStorage.getItem("userInfo", JSON.stringify()));
+      if (checkId) getByUserName(checkId);
+      else navigate("/");
+    },
+    [],
+    [userInfo]
+  );
 
   const contextValues = {
     // varibales

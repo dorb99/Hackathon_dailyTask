@@ -32,7 +32,7 @@ exports.userLogin = async (req, res) => {
       username,
     }).exec();
     if (signedUser) return res.status(200).send(signedUser);
-    else res.status(403).send("username doesnt exist");
+    else res.status(403).send(`username doesnt exist ${username}`);
   } catch (error) {
     res.status(500).send(error);
   }

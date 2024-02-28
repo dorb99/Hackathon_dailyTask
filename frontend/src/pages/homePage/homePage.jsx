@@ -5,7 +5,7 @@ import { UserContext } from "../../components/userContext";
 
 function HomePage() {
   const [username, setUsername] = useState("");
-  const { loginUserAction } = useContext(UserContext);
+  const { loginUserAction,userinfo } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
