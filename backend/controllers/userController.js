@@ -49,9 +49,11 @@ exports.findUserByName = async(req, res)=>{
 exports.findAndUpdateUser = async (req, res) => {
 
   try {
-    const updatedUser = await User.findOneAndUpdate(req.body.username, req.body, {
-      new: true,
-    });
+    const updatedUser = await User.findOneAndUpdate(
+      { username: req.body.username },
+      req.body, 
+      { new: true } 
+    );
     res.send(updatedUser);
   } catch (error) {
     res.send(error);
@@ -66,3 +68,33 @@ exports.findAndDeleteUser = async (req, res) => {
     res.send(error);
   }
 };
+
+exports.addClass = async (req, res) => {
+
+  try{
+      const updatedUser = await User.findOneAndUpdate(
+        { username: req.body.username },
+        { $push: { class: req.body.class } }, 
+        { new: true } 
+      );
+      res.send(updatedUser);
+  } catch (error) {
+      res.send(error)
+  }
+}
+
+exports.addQuestion = async (req, res) => {
+
+  try{
+      const updatedUser = await User.findOneAndUpdate(
+        { username: req.body.username },
+        { $push: { questions: { id: req.body.id,
+          answerQuestion: req.body.correctAnswer} } }, 
+        { new: true } 
+      );
+      res.send(updatedUser);
+  } catch (error) {
+      res.send(error)
+  }
+}
+

@@ -16,5 +16,9 @@ router.route("/updateUser")
 .patch(userController.findAndUpdateUser)
 router.route("/findUserByName")
 .get(userController.findUserByName)
+router.route("/addClass")
+.patch(userController.addClass)
+router.route("/addQuestion")
+.patch(userController.addQuestion)
 
 module.exports = router;
