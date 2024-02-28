@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./homePage.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../components/userContext";
 
 function HomePage() {
-  const [userName, setUserName] = useState();
+  const [username, setUsername] = useState("");
+  const { loginUserAction } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    navigate("/userHome");
+  const handleLogin = (e) => {
+    e.preventDefault();
+    loginUserAction(username);
   };
   const handleNewUser = () => {
     navigate("/signinPage");
@@ -22,10 +25,10 @@ function HomePage() {
           <input
             type="text"
             required
-            value={userName}
+            value={username}
             className="smallInput"
-            placeholder="userName..."
-            onChange={(e) => setUserName(e.target.value)}
+            placeholder="username..."
+            onChange={(e) => setUsername(e.target.value)}
           />
           <button type="submit" className="submitBtn">
             Login

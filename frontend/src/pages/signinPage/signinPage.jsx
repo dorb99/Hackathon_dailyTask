@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./signinPage.css";
-import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../components/userContext";
 
 function SigninPage() {
   const [newUser, setNewUser] = useState({
@@ -9,9 +9,9 @@ function SigninPage() {
     passkey: "",
     role: "",
   });
-  const navigate = useNavigate();
+  const { createUserAction } = useContext(UserContext);
 
-  const handleLogin = (e) => {
+  const handleSignin = (e) => {
     e.preventDefault();
     if (newUser?.passkey === "newstudent") {
       const addRole = newUser;
@@ -22,7 +22,7 @@ function SigninPage() {
       addRole.role = "teacher";
       setNewUser(addRole);
     } else return console.log("error, incorrect passkey");
-    navigate("/userHome");
+    createUserAction(newUser);
   };
 
   return (
@@ -30,7 +30,7 @@ function SigninPage() {
       <div className="login_Container">
         <h2 className="header">Hi!</h2>
         <p className="smallP">Please fill the following form</p>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignin}>
           <input
             type="text"
             required
