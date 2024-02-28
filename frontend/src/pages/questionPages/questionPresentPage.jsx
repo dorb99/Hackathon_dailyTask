@@ -1,26 +1,25 @@
-import React, { useContext } from 'react'
+
+import React from "react";
 import { useState } from "react";
-import { UserContext } from "../../components/userContext";
-import "./questionPresentPage.css";
+import { useLocation } from "react-router-dom";
 
-const questionPresentPage = (props) => {
-    const { userInfo } = useContext(UserContext);
-
+const questionPresentPage = () => {
+  const [className, setClassName] = useState();
+  const location = useLocation();
+  const { question } = location.state;
 
   return (
     <div className="page">
-    <div className="login_Container">
-      <h2 className="header">{userInfo}</h2>
-      <p className="smallP">{userInfo}</p>
-      <div className='answer_Container'>
-        <button type="submit" className="answerBtn">{userInfo}</button>
-        <button type="submit" className="answerBtn">{userInfo}</button>
-        <button type="submit" className="answerBtn">{userInfo}</button>
-        <button type="submit" className="answerBtn">{userInfo}</button>
+      <div className="login_Container">
+        <h2 className="header">{className}</h2>
+        <p className="smallP">Please fill the following form</p>
+        <button type="submit" className="submitBtn">
+          Sign in
+        </button>
       </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default questionPresentPage
+
+export default questionPresentPage;
