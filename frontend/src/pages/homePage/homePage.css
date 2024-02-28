@@ -68,4 +68,5 @@ form {
 .linkSpan {
   color: rgb(91, 31, 31);
   text-decoration: underline solid;
+  cursor: pointer;
 }
