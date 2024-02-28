@@ -1,6 +1,9 @@
+import { io } from "socket.io-client";
 import './App.css'
 
 function App() {
+
+  const socket = io.connect("http://localhost:3004");
 
   return (
     <>
