@@ -18,7 +18,7 @@ router.route("/login")
 // .get(userController.findUserByName)
 router.route("/addClass")
 .patch(userController.addClass)
-router.route("/addQuestion")
-.patch(userController.addQuestion)
+router.route("/answerQuestion")
+.patch(userController.answerQuestion)
 
 module.exports = router;

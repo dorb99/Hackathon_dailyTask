@@ -1,3 +1,4 @@
+const Question = require("../schemas/questionsSchema");
 const User = require("../schemas/userSchema");
 exports.createUser = async (req, res) => {
   try {
@@ -85,15 +86,18 @@ exports.addClass = async (req, res) => {
   }
 };
 
-exports.addQuestion = async (req, res) => {
+exports.answerQuestion = async (req, res) => {
+  const { userId, questionId, answer } = req.body;
+  if (!userId || !questionId || !answer)
+    return res.status(404).send("invalid data");
   try {
     const updatedUser = await User.findOneAndUpdate(
-      { username: req.body.username },
+      { username: userId },
       {
         $push: {
           questions: {
-            id: req.body.id,
-            answerQuestion: req.body.correctAnswer,
+            id: questionId,
+            answerQuestion: answer,
           },
         },
       },

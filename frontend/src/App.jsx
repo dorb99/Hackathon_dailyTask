@@ -6,9 +6,12 @@ import UserPage from "./pages/userPage/userPage";
 import SigninPage from "./pages/signinPage/signinPage";
 import CreateQuestionPage from "./pages/questionPages/createQuestionPage";
 import QuestionPresentPage from "./pages/questionPages/questionPresentPage";
+import { UserContext } from "./components/userContext";
+import { useContext } from "react";
 
 function App() {
   const socket = io.connect("http://localhost:3004");
+  const { userInfo } = useContext(UserContext);
 
   return (
     <div className="page">
@@ -19,6 +22,7 @@ function App() {
         <Route path="/createQuestionPage" element={<CreateQuestionPage />} />
         <Route path="/questionPresentPage" element={<QuestionPresentPage />} />
       </Routes>
+      <button onClick={() => console.log(userInfo)}>click</button>
     </div>
   );
 }
