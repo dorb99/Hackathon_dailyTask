@@ -14,8 +14,8 @@ const UserProvider = ({ children }) => {
       const response = await axios.post(`${URL}/api/user/create`, newUser);
       if (response.status === 402) return alert("username already in use");
       else if (response.status === 200) {
-        console.log("User logged in, " + JSON.stringify(response.data));
-        setUserInfo(JSON.stringify(response.data));
+        console.log(response.data);
+        setUserInfo(response.data);
         navigate("/userHome");
       }
     } catch {
@@ -31,9 +31,10 @@ const UserProvider = ({ children }) => {
       if (response.status === 403) {
         return alert("Username incorrect");
       } else if (response.status === 200) {
-        console.log("User logged in, " + JSON.stringify(response.data));
-        setUserInfo(JSON.stringify(response.data));
+        console.log(response.data);
+        setUserInfo(response.data);
         navigate("/userHome");
+        
       }
     } catch (error) {
       console.error(error);

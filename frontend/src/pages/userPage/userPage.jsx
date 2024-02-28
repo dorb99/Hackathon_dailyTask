@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./userPage.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../components/userContext";
 
 function UserPage() {
   const [userName, setUserName] = useState();
   const navigate = useNavigate();
-
+  const { userInfo } = useContext(UserContext);
   const handleLogin = () => {
     navigate("/userHome");
   };
