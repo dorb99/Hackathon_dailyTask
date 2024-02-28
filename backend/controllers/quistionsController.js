@@ -20,6 +20,15 @@ exports.findAllQuestions= async (req, res)=> {
     res.send(error)
     }
 }
+exports.findQuestionsById= async (req, res)=> {
+    
+    try{
+    const allQuestions = await Question.findById({});
+    res.send(allQuestions);
+    } catch(error){
+    res.send(error)
+    }
+}
 
 exports.findAndUpdateQuestion = async (req, res) => {
 
