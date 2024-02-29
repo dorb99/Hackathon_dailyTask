@@ -46,8 +46,7 @@ function UserPage() {
     () => {
       setHelper(!helper);
       findAllQuestions();
-      setAllClasses(userInfo?.classes);
-
+      setAllClasses(userInfo?.classes)
       return () => {
         // setAllClasses([]);
       };
