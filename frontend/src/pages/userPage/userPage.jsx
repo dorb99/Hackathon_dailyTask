@@ -12,6 +12,7 @@ function UserPage() {
   const [createOption, setCreateOption] = useState(false);
   const [allClasses, setAllClasses] = useState();
   const [leftRooms, setLeftRooms] = useState([]);
+  const [showStatus, setShowStatus] = useState({ boolean: false, data: null });
   const [selectedClassIndex, setSelectedClassIndex] = useState(10);
   const navigate = useNavigate();
   const [helper, setHelper]= useState(false)
@@ -30,12 +31,19 @@ function UserPage() {
     navigate("/createQuestionPage", { state: { roomId } });
   };
 
-  const handleShowStatus = (index) => {};
+  const handleShowStatus = (index) => {
+    const newStatus = showStatus;
+    newStatus.boolean = !newStatus.boolean;
+    newStatus.data = allClasses[index].students;
+    setShowStatus(newStatus);
+    console.log(newStatus);
+  };
 
   const handleMoreOptions = (index) => {
     if (index === selectedClassIndex) setSelectedClassIndex(10);
     else setSelectedClassIndex(index);
   };
+
   useEffect(() => {
     setLeftRooms(prevLeftRooms => {
       const newLeftRooms = leftQuestions.map(question => question.roomId);
@@ -48,6 +56,7 @@ function UserPage() {
       setHelper(!helper)
       findAllQuestions();
       setAllClasses(userInfo?.classes);
+
       return () => {
         // setAllClasses([]);
       };
@@ -55,17 +64,14 @@ function UserPage() {
     [],[userInfo]
   );
   useEffect(() => {
-    for (let i = 0; i < leftQuestions.length; i++) {
-      const newLeftRoom = leftRooms;
-      newLeftRoom[i] = leftQuestions[i].roomId;
-      setLeftRooms(newLeftRoom);
-    }
-  }, []);
+    setLeftRooms(leftQuestions.map((question) => question.roomId));
+  }, [leftQuestions]);
+
   return (
     <div className="page">
       <h2 className="header">Hi, {userInfo?.fullName}</h2>
       {userInfo?.role === "student" ? (
-        <div className="maping_Container">
+        <div className="classesContainer scroll">
           {allClasses?.map((element, index) => (
             <button
               key={element}
@@ -85,39 +91,46 @@ function UserPage() {
           )}
         </div>
       ) : userInfo?.role === "teacher" ? (
-        <div className="maping_Container">
+        <>
           <button
             className="classBtn"
             onClick={() => setCreateOption(!createOption)}
           >
             Create classroom
           </button>
-
           {createOption ? (
             <CreateClass />
           ) : (
-            allClasses?.map((element, index) => (
-              <div className="classRoom" key={element}>
-                <button
-                  onClick={() => handleMoreOptions(index)}
-                  className={`classBtn ${
-                    leftRooms.includes(element) ? "hasQuestion" : ""
-                  }`}
-                >
-                  {element}
-                </button>
-                {selectedClassIndex === index && (
-                  <div className="classDetails">
-                    <button onClick={() => handleSendQuestion(index)}>
-                      Send Question
-                    </button>
-                    <button onClick={() => handleShowStatus(index)}>
-                      Check Status
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))
+
+            <div className="classesContainer scroll">
+              {allClasses?.map((element, index) => (
+                <div className="classRoom" key={element}>
+                  <button
+                    onClick={() => handleMoreOptions(index)}
+                    className="classBtn"
+                  >
+                    {element}
+                  </button>
+                  {selectedClassIndex === index && (
+                    <div className="classDetails">
+                      <button onClick={() => handleSendQuestion(index)}>
+                        Send Question
+                      </button>
+                      {!showStatus.boolean ? (
+                        <button onClick={() => handleShowStatus(index)}>
+                          Check Status
+                        </button>
+                      ) : (
+                        <div>
+                          {showStatus.boolean && <p>{showStatus.data}</p>}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
           )}
           {allClasses?.length === 0 && (
             <HourglassTopIcon
@@ -125,7 +138,7 @@ function UserPage() {
               style={{ fontSize: "48px" }}
             />
           )}
-        </div>
+        </>
       ) : null}
     </div>
   );
