@@ -12,17 +12,26 @@ const navbar = () => {
     logout();
     
   };
+  const goBack = () => {
+    window.history.back();
+  };
   return (
     <nav className="navbar">
       <div className="navbar-container">
+      {(userInfo?.fullName) &&(
+        <Link to="/userHome" className="navbar-logo">
+         Daily tasks
+        </Link>
+      )} {!(userInfo?.fullName) &&(
         <Link to="/" className="navbar-logo">
          Daily tasks
         </Link>
+      )}
 
         <div className="navbar-links">
         {(userInfo?.fullName) &&(
-          <Link to="/userHome" className="nav-link">
-            Home
+          <Link onClick={goBack} className="nav-link">
+            Go back
           </Link>
         )}
           {(userInfo?.fullName) &&(

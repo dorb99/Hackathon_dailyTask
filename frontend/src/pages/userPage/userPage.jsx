@@ -75,7 +75,7 @@ function UserPage() {
                 </div>
               )}
             </div>
-          ))}
+          )))}
           {allClasses?.length ===0 &&(
           <HourglassTopIcon className="my-icon" style={{ fontSize: '48px' }} />
 

@@ -26,7 +26,7 @@ function App() {
         <Route path="/createQuestionPage" element={<CreateQuestionPage />} />
         <Route path="/questionPresentPage" element={<QuestionPresentPage />} />
       </Routes>
-      <button onClick={() => console.log(userInfo)}>click</button>
+      
     </div>
   );
 }

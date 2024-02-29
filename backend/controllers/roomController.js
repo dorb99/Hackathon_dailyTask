@@ -13,7 +13,7 @@ exports.createRoom = async (req, res) => {
     if (!newRoom) return res.status(405).send("data incorrect");
     res.status(200).send("Room created successfully");
   } catch (error) {
-    res.send(error);
+    res.status(500).send(error);
   }
 };
 

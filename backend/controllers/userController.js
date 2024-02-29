@@ -7,7 +7,7 @@ exports.createUser = async (req, res) => {
   try {
     const UserExists = await User.exists({ username });
     if (UserExists) {
-      res.status(404).send("username already exists");
+      res.status(406).send("username already exists");
     } else {
       const newUser = await User.create({
         ...req.body,
