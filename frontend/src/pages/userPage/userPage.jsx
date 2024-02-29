@@ -4,6 +4,7 @@ import { UserContext } from "../../components/userContext";
 import { SocketContext } from "../../components/socketContext";
 import CreateClass from "./createClassRoom";
 import { useNavigate } from "react-router-dom";
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 
 function UserPage() {
   const { userInfo } = useContext(UserContext);
@@ -11,6 +12,7 @@ function UserPage() {
   const [createOption, setCreateOption] = useState(false);
   const [fullTable, setFullTable] = useState(false);
   const [allClasses, setAllClasses] = useState();
+  const [selectedClassIndex, setSelectedClassIndex] = useState(false);
   const navigate = useNavigate();
   const roomId = "math12";
 
@@ -25,6 +27,11 @@ function UserPage() {
     createClassRoom();
   };
 
+  const handleMoreOptions =(params, isTrue)=>{
+    setFullTable(isTrue);
+    setSelectedClassIndex(params);
+  }
+
   useEffect(() => {
     setAllClasses(userInfo?.classes);
     return () => {
@@ -38,10 +45,13 @@ function UserPage() {
       {userInfo?.role === "student" ? (
         <div className="maping_Container">
           {allClasses?.map((element, index) => (
-            <button key={element} onClick={() => handleRoomClick(index)}>
+            <button key={element} onClick={() => handleMoreOptions(index,!fullTable)}>
               {element}
             </button>
           ))}
+          {allClasses?.length === 0 && (
+                     <HourglassTopIcon className="my-icon" style={{ fontSize: '48px' }} />
+          )}
         </div>
       ) : userInfo?.role === "teacher" ? (
         <div className="maping_Container">
@@ -51,7 +61,6 @@ function UserPage() {
           >
             Create classroom
           </button>
-
           {createOption ? (
             <CreateClass roomId={roomId} />
           ) : (
@@ -72,11 +81,13 @@ function UserPage() {
                 )}
               </div>
             ))
+
           )}
         </div>
       ) : null}
     </div>
   );
 }
+
 
 export default UserPage;

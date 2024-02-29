@@ -28,6 +28,8 @@ const UserProvider = ({ children }) => {
       else if (response.status === 200) {
         enterUser(response.data);
         navigate("/userHome");
+      } else{
+        return alert("unkown failure")
       }
     } catch {
       (error) => {
@@ -47,7 +49,9 @@ const UserProvider = ({ children }) => {
         navigate("/userHome");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      console.error(error.response.data);
+      return alert("username incorrect")
     }
   };
 
