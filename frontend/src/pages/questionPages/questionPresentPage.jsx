@@ -5,22 +5,21 @@ import "./questionPresentPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const questionPresentPage = (props) => {
-  const { userInfo, answerQuestionAction } = useContext(UserContext);
+  const { userInfo, answerQuestionAction,deleteQuestion } = useContext(UserContext);
   const location = useLocation();
-  const { question } = location.state;
-  console.log(question); 
+  const { question } = location.state; 
   const navigate = useNavigate();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [buttonColor, setButtonColor] = useState(["", "", "", ""]);
-
   const handleClick = (place) => {
     if (place === question?.correctAnswer) {
       const updatedColor = [...buttonColor];
       updatedColor[place - 1] = "green";
       setButtonColor(updatedColor);
       setButtonClicked(true);
-      answerQuestionAction({ answer: place, questionId: question.id });
+      answerQuestionAction({ answer: place, questionId: question._id });
       setTimeout(() => {
+        deleteQuestion({questionId: question._id})
         navigate("/userHome");
       }, 3000);
     } else {
@@ -29,8 +28,9 @@ const questionPresentPage = (props) => {
       updatedColor[place - 1] = "red";
       setButtonColor(updatedColor);
       setButtonClicked(true);
-      answerQuestionAction({ answer: place, questionId: question.id });
+      answerQuestionAction({ answer: place, questionId: question._id });
       setTimeout(() => {
+        deleteQuestion({questionId: question._id})
         navigate("/userHome");
       }, 3000);
     }
@@ -39,7 +39,7 @@ const questionPresentPage = (props) => {
   return (
     <div className="page">
       <div className="login_Container">
-        <h2 className="header"> {userInfo?.classes}</h2>
+        <h2 className="header"> {question.question}</h2>
         <p className="smallP">Hello {userInfo?.fullName}</p>
         <div className="answer_Container">
           <button

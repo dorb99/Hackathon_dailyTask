@@ -14,6 +14,8 @@ router.route("/findQuestion/:question")
 .get(questionController.findQuestion);
 router.route("/deleteQuestion")
 .delete(questionController.findAndDeleteQuestion)
+router.route("/updateQuestion")
+.post(questionController.updateQuestion)
 
 
 

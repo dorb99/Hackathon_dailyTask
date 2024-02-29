@@ -49,7 +49,7 @@ const SocketProvider = ({ children }) => {
 
   //emits
   const socket_EnterRoom = (classId) => {
-    console.log("sending from front");
+    
     socket.emit("enter_Room", classId);
   };
 
@@ -90,6 +90,7 @@ const SocketProvider = ({ children }) => {
 
   socket.on("new_Question", handleNewQuestion);
   socket.on("latestQuestion", handleLastQuestion);
+
   socket.on("receivedQuestion", handleRecivedQuestion);
 
   const contextValues = {

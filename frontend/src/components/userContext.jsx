@@ -101,6 +101,22 @@ const UserProvider = ({ children }) => {
       console.error(error);
     }
   };
+  const deleteQuestion= async(info)=>{
+    const send ={
+      questionId: info.questionId,
+      userId: userInfo?._id
+    }
+    try{
+      const response = await axios.post(
+        `${URL}/api/question/updateQuestion`,
+        send
+      );
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
+      console.log(response.data);
+    }catch (error) {
+      console.log(error);
+    }
+  }
 
   const answerQuestionAction = async (info) => {
     const answer = {
@@ -156,7 +172,7 @@ const UserProvider = ({ children }) => {
         `${URL}/api/user/findAllQuestions/${id}`
       );
       if (response.status === 200) setLeftQuestions(response.data);
-      console.log(response.data);
+     
     } catch (error) {
       console.error(error);
     }
@@ -185,6 +201,18 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  useEffect(
+    () => {
+      const checkId = JSON.parse(
+        localStorage.getItem("userInfo", JSON.stringify())
+      );
+      if (checkId) getByUserName(checkId);
+      else navigate("/");
+    },
+    [],
+    [userInfo]
+  );
+
   const contextValues = {
     // varibales
     userInfo,
@@ -203,6 +231,7 @@ const UserProvider = ({ children }) => {
     findQuestion,
     logout,
     findAllQuestions,
+    deleteQuestion
   };
 
   return (

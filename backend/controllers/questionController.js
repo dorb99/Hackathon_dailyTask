@@ -40,6 +40,25 @@ exports.findQuestionById = async (req, res) => {
     res.status(500).send(error);
   }
 };
+exports.updateQuestion = async (req, res) => {
+  try {
+    const questionId = req.body.questionId;
+    const studentIdToRemove = req.body.id;
+    const question = await Question.findById(questionId);
+    const studentIndex = question.students.findIndex(student => student.id === studentIdToRemove);
+    if (studentIndex !== -1) {
+      question.students.splice(studentIndex, 1);
+      await question.save(); 
+      res.status(200).send('Student removed successfully');
+    } else {
+      res.status(404).send('Student not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+};
+
 
 exports.findQuestion = async (req, res) => {
   const question = req.params.question;
@@ -67,3 +86,5 @@ exports.findAndDeleteQuestion = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+
