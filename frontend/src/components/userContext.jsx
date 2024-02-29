@@ -197,7 +197,6 @@ const UserProvider = ({ children }) => {
 
   useEffect(
     () => {
-
       const checkId = localStorage.getItem("userInfo", JSON.stringify());
       if (checkId) {
         const check = JSON.parse(checkId);
