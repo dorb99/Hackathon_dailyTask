@@ -39,7 +39,7 @@ const questionPresentPage = (props) => {
   return (
     <div className="page">
       <div className="login_Container">
-        <h2 className="header"> {question.question}</h2>
+        <h2 className="header"> {question?.question}</h2>
         <p className="smallP">Hello {userInfo?.fullName}</p>
         <div className="answer_Container">
           <button
