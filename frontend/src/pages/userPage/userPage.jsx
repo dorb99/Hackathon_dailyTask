@@ -15,6 +15,7 @@ function UserPage() {
   const [showStatus, setShowStatus] = useState({ boolean: false, data: null });
   const [selectedClassIndex, setSelectedClassIndex] = useState(10);
   const navigate = useNavigate();
+  const [helper, setHelper]= useState(false)
 
   const handleRoomClick = (index) => {
     const room = allClasses[index];
@@ -43,18 +44,24 @@ function UserPage() {
     else setSelectedClassIndex(index);
   };
 
+  useEffect(() => {
+    setLeftRooms(prevLeftRooms => {
+      const newLeftRooms = leftQuestions.map(question => question.roomId);
+      return newLeftRooms;
+    });
+  }, [leftQuestions]);
+
   useEffect(
     () => {
-      setTimeout(() => {
-        findAllQuestions();
-        setAllClasses(userInfo?.classes);
-      }, 10);
+      setHelper(!helper)
+      findAllQuestions();
+      setAllClasses(userInfo?.classes);
+
       return () => {
         // setAllClasses([]);
       };
     },
-    [],
-    [userInfo]
+    [],[userInfo]
   );
   useEffect(() => {
     setLeftRooms(leftQuestions.map((question) => question.roomId));
@@ -94,6 +101,7 @@ function UserPage() {
           {createOption ? (
             <CreateClass />
           ) : (
+
             <div className="classesContainer scroll">
               {allClasses?.map((element, index) => (
                 <div className="classRoom" key={element}>
@@ -122,6 +130,7 @@ function UserPage() {
                 </div>
               ))}
             </div>
+
           )}
           {allClasses?.length === 0 && (
             <HourglassTopIcon
