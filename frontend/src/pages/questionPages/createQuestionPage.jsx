@@ -10,18 +10,18 @@ const createQuestionPage = () => {
   const { sendQuestion } = useContext(SocketContext);
   const location = useLocation();
   const room = location.state;
-  // console.log(room)
+  console.log(room)
   const [newQuestion, setNewQuestion] = useState({
     question: "",
     answers: [],
     correctAnswer: "",
-    roomId: "math120",
+    roomId: room.roomId,
   });
 
   const handleSent = (e) => {
     e.preventDefault();
     addQuestionAction(newQuestion);
-    sendQuestion(newQuestion)
+    sendQuestion(newQuestion);
   };
 
   return (
@@ -90,7 +90,6 @@ const createQuestionPage = () => {
               setNewQuestion(addInput);
             }}
           />
-
           <input
             type="text"
             pattern="[0-9]*"
