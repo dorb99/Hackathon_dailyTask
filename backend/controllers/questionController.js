@@ -30,7 +30,7 @@ exports.findAllQuestions = async (req, res) => {
   }
 };
 
-exports.findQuestion = async (req, res) => {
+exports.findQuestionById = async (req, res) => {
   const id = req.params.id;
   if (!id) return res.status(404).send("not enough data");
   try {
@@ -59,6 +59,19 @@ exports.updateQuestion = async (req, res) => {
   }
 };
 
+
+exports.findQuestion = async (req, res) => {
+  const question = req.params.question;
+  console.log("printing the back" +question);
+  if (!question) return res.status(404).send("not enough data");
+  try {
+    const foundQuestion = await Question.findOne({ question: question });
+    if(!foundQuestion) return res.status(404).send("didnt find a question")
+    res.status(200).send(question);
+  } catch (error) {
+    res.status(500).send("error");
+  }
+};
 
 exports.findAndDeleteQuestion = async (req, res) => {
   const question = req.body.question;

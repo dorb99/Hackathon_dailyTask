@@ -53,7 +53,6 @@ io.on("connection", (socket) => {
     const room = info.roomId;
     const question = info.question;
     allQuestions[room] = question;
-    console.log(allQuestions);
     socket.to(room).emit("receivedQuestion", question);
   });
 });

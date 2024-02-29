@@ -28,6 +28,7 @@ function UserPage() {
     const roomId = allClasses[index];
     navigate("/createQuestionPage", { state: { roomId } });
   };
+
   const handleShowStatus = (index) => {};
 
   const handleMoreOptions = (index) => {
@@ -57,7 +58,7 @@ function UserPage() {
       newLeftRoom[i] = leftQuestions[i].roomId;
       setLeftRooms(newLeftRoom);
     }
-  }, [leftQuestions]);
+  }, []);
   return (
     <div className="page">
       <h2 className="header">Hi, {userInfo?.fullName}</h2>
@@ -91,7 +92,7 @@ function UserPage() {
           </button>
 
           {createOption ? (
-            <CreateClass roomId={roomId} />
+            <CreateClass />
           ) : (
             allClasses?.map((element, index) => (
               <div className="classRoom" key={element}>

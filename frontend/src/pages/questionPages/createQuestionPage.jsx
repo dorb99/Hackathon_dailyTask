@@ -10,7 +10,7 @@ const createQuestionPage = () => {
   const { sendQuestion } = useContext(SocketContext);
   const location = useLocation();
   const room = location.state;
-  console.log(room)
+  const navigate = useNavigate();
   const [newQuestion, setNewQuestion] = useState({
     question: "",
     answers: [],
@@ -22,6 +22,7 @@ const createQuestionPage = () => {
     e.preventDefault();
     addQuestionAction(newQuestion);
     sendQuestion(newQuestion);
+    navigate("/userHome")
   };
 
   return (

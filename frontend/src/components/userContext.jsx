@@ -17,31 +17,24 @@ const UserProvider = ({ children }) => {
     setUserInfo(Info);
     navigate("/userHome");
   };
-  const updateUser = (Info) => {
-    localStorage.setItem("userInfo", JSON.stringify(Info.username));
-    setUserInfo(Info);
-  };
+
 
   const createUserAction = async (newUser) => {
     try {
       const response = await axios.post(`${URL}/api/user/create`, newUser);
-      
+
       if (response.status === 406) {
         return alert("username already in use");
-      }
-      else if (response.status === 200) {
+      } else if (response.status === 200) {
         enterUser(response.data);
         navigate("/userHome");
-
-      } else if(response.status === 404){
-        return alert("not enough data")
-      }else if(response.status ===405){
-        return alert("info is not correct")
-
+      } else if (response.status === 404) {
+        return alert("not enough data");
+      } else if (response.status === 405) {
+        return alert("info is not correct");
       }
     } catch {
       (error) => {
-        
         console.log(error);
       };
     }
@@ -54,13 +47,12 @@ const UserProvider = ({ children }) => {
         return alert(`Username incorrect `);
       } else if (response.status === 200) {
         enterUser(response.data);
-        
         navigate("/userHome");
-      } else if(response.status === 404) {
+      } else if (response.status === 404) {
         return alert(`Username not sent `);
-      } else if(response.status === 405){
+      } else if (response.status === 405) {
         return alert(`incorrect user  `);
-      } 
+      }
     } catch (error) {
       console.log(error);
       console.error(error.response.data);
@@ -91,9 +83,9 @@ const UserProvider = ({ children }) => {
         enterUser(response.data);
         console.log(response.data);
         navigate("/userHome");
-      } else if(response.status === 404) {
+      } else if (response.status === 404) {
         return alert(`Username not sent `);
-      } else if(response.status === 405){
+      } else if (response.status === 405) {
         return alert(`Username not true `);
       }
     } catch (error) {
@@ -143,9 +135,9 @@ const UserProvider = ({ children }) => {
         enterUser(response.data);
         console.log(response.data);
         navigate("/userHome");
-      } else if(response.status === 404) {
+      } else if (response.status === 404) {
         return alert(`Question not sent `);
-      } else if(response.status === 405){
+      } else if (response.status === 405) {
         return alert(`Question not true `);
       }
     } catch (error) {
@@ -163,9 +155,9 @@ const UserProvider = ({ children }) => {
         enterUser(response.data);
         console.log(response.data);
         navigate("/userHome");
-      } else if(response.status === 404) {
+      } else if (response.status === 404) {
         return alert(`class not sent `);
-      } else if(response.status === 405){
+      } else if (response.status === 405) {
         return alert(`class not true `);
       }
     } catch (error) {
@@ -186,16 +178,18 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const findQuestion = async (questionId) => {
+  const findQuestion = async (question) => {
+    console.log("david");
     try {
       const response = await axios.get(
-        `${URL}/api/question/findQuestion/${questionId}`
+        `${URL}/api/question/findQuestion/${question}`
       );
-      if (response.status === 200) console.log(response.data);
+      if (response.status === 200) return (response.data);
     } catch (error) {
       console.error(error);
     }
   };
+
 
   const logout = async () => {
     try {
