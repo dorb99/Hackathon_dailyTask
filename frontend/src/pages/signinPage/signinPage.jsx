@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import "./signinPage.css";
 import { UserContext } from "../../components/userContext";
 
 function SigninPage() {
