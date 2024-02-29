@@ -1,15 +1,18 @@
 const Question = require("../schemas/questionsSchema");
+const Room = require("../schemas/roomSchema");
 
 exports.createQuestion = async (req, res) => {
   const { question, answers, correctAnswer, roomId } = req.body;
   if (!question || !answers || !correctAnswer || !roomId)
     return res.status(404).send("not enough data");
   try {
+    const infoRoom = await Room.findOne({ roomId: roomId });
     const newQuestion = await Question.create({
       question,
       answers,
       correctAnswer,
       roomId,
+      students: infoRoom.students,
     });
     if (!newQuestion) return res.status(405).send("data incorrect");
     else res.status(200).send("question created successfully");

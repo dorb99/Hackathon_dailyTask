@@ -16,6 +16,7 @@ const newQuestion = new mongoose.Schema({
     type: String,
     required: true,
   },
+  students: [String],
 });
 
 const Question = mongoose.model("Question", newQuestion);

@@ -8,6 +8,7 @@ const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState();
   const [allStudents, setAllStudents] = useState([]);
+  const [leftQuestions, setLeftQuestions] = useState([]);
   const URL = import.meta.env.VITE_SERVER_URL;
 
   const enterUser = (Info) => {
@@ -31,10 +32,12 @@ const UserProvider = ({ children }) => {
       else if (response.status === 200) {
         enterUser(response.data);
         navigate("/userHome");
+
       } else if(response.status === 404){
         return alert("not enough data")
       }else if(response.status ===405){
         return alert("info is not correct")
+
       }
     } catch {
       (error) => {
@@ -61,7 +64,7 @@ const UserProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
       console.error(error.response.data);
-      return alert("username incorrect")
+      return alert("username incorrect");
     }
   };
 
@@ -102,7 +105,6 @@ const UserProvider = ({ children }) => {
     try {
       const response = await axios.get(`${URL}/api/user/findAllStudents`);
       setAllStudents(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -155,6 +157,19 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const findAllQuestions = async () => {
+    const id = userInfo?._id;
+    try {
+      const response = await axios.get(
+        `${URL}/api/user/findAllQuestions/${id}`
+      );
+      if (response.status === 200) setLeftQuestions(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const findQuestion = async (questionId) => {
     try {
       const response = await axios.get(
@@ -165,6 +180,7 @@ const UserProvider = ({ children }) => {
       console.error(error);
     }
   };
+
   const logout = async () => {
     try {
       localStorage.removeItem("userInfo");
@@ -177,6 +193,7 @@ const UserProvider = ({ children }) => {
 
   useEffect(
     () => {
+      console.log(leftQuestions);
       const checkId = JSON.parse(
         localStorage.getItem("userInfo", JSON.stringify())
       );
@@ -193,6 +210,8 @@ const UserProvider = ({ children }) => {
     setUserInfo,
     URL,
     allStudents,
+    leftQuestions,
+    setLeftQuestions,
 
     // actions
     createUserAction,
@@ -202,6 +221,7 @@ const UserProvider = ({ children }) => {
     addClass,
     findQuestion,
     logout,
+    findAllQuestions,
   };
 
   return (
