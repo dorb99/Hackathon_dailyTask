@@ -3,13 +3,14 @@ const Room = require("../schemas/roomSchema");
 exports.createRoom = async (req, res) => {
   const { roomId, students, teacher } = req.body;
   if (!roomId || !students || !teacher)
-    return res.status(404).send("wrong information");
+    return res.status(404).send("not enough data");
   try {
     const newRoom = await Room.create({
       roomId,
       students,
       teacher,
     });
+    if (!newRoom) return res.status(405).send("data incorrect");
     res.status(200).send("Room created successfully");
   } catch (error) {
     res.send(error);
@@ -17,21 +18,25 @@ exports.createRoom = async (req, res) => {
 };
 
 exports.getRoom = async (req, res) => {
+  const roomId = req.body.roomId;
+  if (!roomId) return res.status(404).send("not enough data");
   try {
-    const room = await Room.findById({ roomId: req.params.roomId });
-    res.status(200).send(room);
+    const room = await Room.findById({ roomId });
+    if (!room) return res.status(405).send("wrong roomId");
+    res.status(200).send("Room created successfully");
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-exports.findAndDeleteRoom = async (req, res) => {
+exports.getRoom = async (req, res) => {
+  const roomId = req.body.roomId;
+  if (!roomId) return res.status(404).send("not enough data");
   try {
-    const replacedRoom = await Room.findOneAndDelete({
-      RoomId: req.body.RoomId,
-    });
-    res.send(replacedRoom);
+    const replacedRoom = await Room.findOneAndDelete({ roomId });
+    if (!replacedRoom) return res.status(405).send("wrong roomId");
+    res.status(200).send("Room deleted successfully");
   } catch (error) {
-    res.send(error);
+    res.status(500).send(error);
   }
 };

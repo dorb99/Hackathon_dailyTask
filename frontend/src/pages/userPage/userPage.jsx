@@ -55,16 +55,19 @@ function UserPage() {
         </div>
       ) : userInfo?.role === "teacher" ? (
         <div className="maping_Container">
-          {createOption ? <CreateClass room={roomId} /> : null}
           <button
            className="classBtn"
             onClick={() => setCreateOption(!createOption)}
           >
             Create classroom
           </button>
-          {allClasses?.map((element, index) => (
-            <div className="classRoom" key={element}>
-              <button onClick={() => handleMoreOptions(index,!fullTable)}className="classBtn">{element}</button>
+
+          {createOption ? (
+            <CreateClass roomId={roomId} />
+          ) : (
+            allClasses?.map((element, index) => (
+              <div className="classRoom" key={element}>
+                 <button onClick={() => handleMoreOptions(index,!fullTable)}className="classBtn">{element}</button>
               {selectedClassIndex === index && fullTable && (
                 <div className="classDetails">
                   <button onClick={handleSendQuestion}>Send Question</button>
@@ -75,6 +78,7 @@ function UserPage() {
           ))}
           {allClasses?.length ===0 &&(
           <HourglassTopIcon className="my-icon" style={{ fontSize: '48px' }} />
+
           )}
         </div>
       ) : null}

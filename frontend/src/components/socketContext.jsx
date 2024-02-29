@@ -43,6 +43,7 @@ const SocketProvider = ({ children }) => {
 
   //emits
   const socket_EnterRoom = (classId) => {
+    console.log("sending from front");
     socket.emit("enter_Room", classId);
   };
 
@@ -55,24 +56,31 @@ const SocketProvider = ({ children }) => {
     socket.emit("send_Quesion", info);
   };
 
-  useEffect(() => {
-    const handleNewQuestion = (question) => {
-      navigate("/questionPresentPage", { state: { question: question } });
-    };
+  const handleNewQuestion = (question) => {
+    navigate("/questionPresentPage", { state: { question: question } });
+  };
 
-    const handleLastQuestion = (question) => {
-      setQuestion(question);
-    };
+  const handleLastQuestion = (question) => {
+    console.log(question);
+    setQuestion(question);
+  };
+  useEffect(() => {
     socket.on("new_Question", handleNewQuestion);
-    socket.on("latestMessage", handleLastQuestion);
+    socket.on("latestQuestion", handleLastQuestion);
     socket.on("entered_room", (classId) => console.log(classId));
 
     return () => {
       socket.off("new_Question", handleNewQuestion);
-      socket.off("latestMessage", handleLastQuestion);
+      socket.off("latestQuestion", handleLastQuestion);
       socket.disconnect();
     };
   }, []);
+  socket.on("new_Question", handleNewQuestion);
+  socket.on("latestQuestion", handleLastQuestion);
+  socket.on("entered_room", (classId) => {console.log(classId)});
+  socket.on("receivedQuestion", (question) => {
+    console.log(question);
+  });
 
   const contextValues = {
     // varibales
