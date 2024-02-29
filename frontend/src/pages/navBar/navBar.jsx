@@ -20,16 +20,18 @@ const navbar = () => {
         </Link>
 
         <div className="navbar-links">
+        {(userInfo?.fullName) &&(
           <Link to="/userHome" className="nav-link">
             Home
           </Link>
+        )}
           {(userInfo?.fullName) &&(
              <Link to="/" className="nav-link" onClick={()=>handleClick()}>
              Logout
            </Link>
           )}
          
-          <Link to="/contact" className="nav-link">
+          <Link to="/aboutUs" className="nav-link">
             About us
           </Link>
         </div>

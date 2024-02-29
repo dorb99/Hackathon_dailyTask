@@ -1,5 +1,8 @@
 const Question = require("../schemas/questionsSchema");
 const User = require("../schemas/userSchema");
+
+
+
 exports.createUser = async (req, res) => {
   try {
     const UserExists = await User.exists({ fullName: req.body.fullName });
@@ -12,7 +15,7 @@ exports.createUser = async (req, res) => {
       res.send(newUser);
     }
   } catch (error) {
-    res.send(error);
+    res.status("fail").send("couldn't create user");
   }
 };
 
