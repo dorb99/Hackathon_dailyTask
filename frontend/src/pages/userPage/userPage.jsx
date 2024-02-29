@@ -14,6 +14,7 @@ function UserPage() {
   const [leftRooms, setLeftRooms] = useState([]);
   const [selectedClassIndex, setSelectedClassIndex] = useState(10);
   const navigate = useNavigate();
+  const [helper, setHelper]= useState(false)
 
   const handleRoomClick = (index) => {
     const room = allClasses[index];
@@ -35,22 +36,23 @@ function UserPage() {
     if (index === selectedClassIndex) setSelectedClassIndex(10);
     else setSelectedClassIndex(index);
   };
-  const boldingTheLeft = () => {
-    for (let index = 0; index < array.length; index++) {}
-    if (index === selectedClassIndex) setSelectedClassIndex(10);
-    else setSelectedClassIndex(index);
-  };
+  useEffect(() => {
+    setLeftRooms(prevLeftRooms => {
+      const newLeftRooms = leftQuestions.map(question => question.roomId);
+      return newLeftRooms;
+    });
+  }, [leftQuestions]);
 
   useEffect(
     () => {
+      setHelper(!helper)
       findAllQuestions();
       setAllClasses(userInfo?.classes);
       return () => {
-        setAllClasses([]);
+        // setAllClasses([]);
       };
     },
-    [],
-    [userInfo]
+    [],[userInfo]
   );
   useEffect(() => {
     for (let i = 0; i < leftQuestions.length; i++) {
@@ -96,10 +98,11 @@ function UserPage() {
           ) : (
             allClasses?.map((element, index) => (
               <div className="classRoom" key={element}>
-
                 <button
                   onClick={() => handleMoreOptions(index)}
-                  className="classBtn"
+                  className={`classBtn ${
+                    leftRooms.includes(element) ? "hasQuestion" : ""
+                  }`}
                 >
                   {element}
                 </button>
@@ -121,7 +124,6 @@ function UserPage() {
               className="my-icon"
               style={{ fontSize: "48px" }}
             />
-
           )}
         </div>
       ) : null}

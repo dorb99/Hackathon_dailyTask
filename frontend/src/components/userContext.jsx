@@ -66,7 +66,7 @@ const UserProvider = ({ children }) => {
       if (response.status === 405) {
         return alert(`Username incorrect `);
       } else if (response.status === 200) {
-        updateUser(response.data);
+        console.log(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -80,8 +80,6 @@ const UserProvider = ({ children }) => {
       if (response.status === 403) {
         return alert(`Username incorrect `);
       } else if (response.status === 200) {
-        enterUser(response.data);
-        console.log(response.data);
         navigate("/userHome");
       } else if (response.status === 404) {
         return alert(`Username not sent `);
@@ -111,8 +109,7 @@ const UserProvider = ({ children }) => {
         `${URL}/api/question/updateQuestion`,
         send
       );
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-      console.log(response.data);
+  
     }catch (error) {
       console.log(error);
     }
@@ -179,7 +176,6 @@ const UserProvider = ({ children }) => {
   };
 
   const findQuestion = async (question) => {
-    console.log("david");
     try {
       const response = await axios.get(
         `${URL}/api/question/findQuestion/${question}`
@@ -205,7 +201,10 @@ const UserProvider = ({ children }) => {
     () => {
       const checkId = JSON.parse(
         localStorage.getItem("userInfo", JSON.stringify())
+        
       );
+      console.log(localStorage.getItem("userInfo", JSON.stringify()));
+      console.log(checkId);
       if (checkId) getByUserName(checkId);
       else navigate("/");
     },
