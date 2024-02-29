@@ -10,6 +10,7 @@ app.use(express.json());
 const server = http.createServer(app);
 
 const allQuestions = {};
+
 dotenv.config({ path: "./.env" });
 const DB = process.env.MONGODB_URL;
 const URL = process.env.CLIENT_URL;
@@ -38,25 +39,22 @@ app.use("/api/room", roomRouets);
 io.on("connection", (socket) => {
   console.log("user connected: " + socket.id);
 
-  socket.on("send_Quesion", (info) => {
-    const room = info.room;
-    const question = info.question;
-    socket.to(room).emit(question);
-  });
-
   socket.on("enter_Room", (classId) => {
     socket.join(classId);
-    socket.to(socket.id).emit("entered_room", classId);
+    socket.emit("entered_room", classId);
+    console.log(allQuestions);
     if (allQuestions[classId]) {
+      console.log("after");
       socket.to(classId).emit("latestQuestion", allQuestions[classId]);
     }
   });
 
   socket.on("send_Quesion", (info) => {
-    const room = info.room;
+    const room = info.roomId;
     const question = info.question;
     allQuestions[room] = question;
-    socket.to(room).emit(question);
+    console.log(allQuestions);
+    socket.to(room).emit("receivedQuestion", question);
   });
 });
 

@@ -3,7 +3,7 @@ const Question = require("../schemas/questionsSchema");
 exports.createQuestion = async (req, res) => {
   const { question, answers, correctAnswer, roomId } = req.body;
   if (!question || !answers || !correctAnswer || !roomId)
-    return res.status(404).send("question inccorrect");
+    return res.status(404).send("not enough data");
   try {
     const newQuestion = await Question.create({
       question,
@@ -11,23 +11,25 @@ exports.createQuestion = async (req, res) => {
       correctAnswer,
       roomId,
     });
-    if (!newQuestion) return res.status(404).send("question inccorrect");
+    if (!newQuestion) return res.status(405).send("data incorrect");
     else res.status(200).send("question created successfully");
   } catch (error) {
-    res.send(error);
+    res.status(500).send(error);
   }
 };
 
 exports.findAllQuestions = async (req, res) => {
   try {
     const allQuestions = await Question.find({});
-    res.send(allQuestions);
+    res.status(200).send(allQuestions);
   } catch (error) {
-    res.send(error);
+    res.status(500).send(error);
   }
 };
+
 exports.findQuestion = async (req, res) => {
   const id = req.params.id;
+  if (!id) return res.status(404).send("not enough data");
   try {
     const question = await Question.findById({ id });
     res.status(200).send(question);
@@ -36,26 +38,16 @@ exports.findQuestion = async (req, res) => {
   }
 };
 
-exports.findAndUpdateQuestion = async (req, res) => {
-  try {
-    const updatedQustion = await Question.findOneAndUpdate(
-      { qustion: req.body.question },
-      req.body,
-      { new: true }
-    );
-    res.send(updatedQustion);
-  } catch (error) {
-    res.send(error);
-  }
-};
-
 exports.findAndDeleteQuestion = async (req, res) => {
+  const question = req.body.question;
+  if (!question) return res.status(404).send("not enough data");
   try {
     const replacedQuestion = await Question.findOneAndDelete({
-      question: req.body.question,
+      question,
     });
-    res.send(replacedQuestion);
+    if (!replacedQuestion) return res.status(405).send("question not found");
+    res.status(200).send("deleted successfully");
   } catch (error) {
-    res.send(error);
+    res.status(500).send(error);
   }
 };

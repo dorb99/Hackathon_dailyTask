@@ -78,7 +78,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const getAllStudents = async (question) => {
+  const getAllStudents = async () => {
     try {
       const response = await axios.get(`${URL}/api/user/findAllStudents`);
       setAllStudents(response.data);
