@@ -22,7 +22,13 @@ const SocketProvider = ({ children }) => {
     const room = { roomId: classRoom, students, teacher: userInfo._id };
     try {
       const response = await axios.post(`${URL}/api/room/create`, room);
-      if (response.status === 200) return console.log(response);
+      if (response.status === 200) return alert("great!");
+      else if(response.status === 404){
+        return alert("not enough info");
+      }else if(response.status === 405){
+        return alert("info incorrect")
+
+      }
     } catch {
       (error) => {
         console.log(error);

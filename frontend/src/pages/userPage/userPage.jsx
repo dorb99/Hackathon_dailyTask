@@ -95,6 +95,7 @@ function UserPage() {
           ) : (
             allClasses?.map((element, index) => (
               <div className="classRoom" key={element}>
+
                 <button
                   onClick={() => handleMoreOptions(index)}
                   className="classBtn"
@@ -119,6 +120,7 @@ function UserPage() {
               className="my-icon"
               style={{ fontSize: "48px" }}
             />
+
           )}
         </div>
       ) : null}
