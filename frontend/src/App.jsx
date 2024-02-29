@@ -12,7 +12,7 @@ import { useContext } from "react";
 import NavBar from "./pages/navBar/navBar"
 
 function App() {
-  const socket = io.connect("http://localhost:3004");
+  // const socket = io.connect("https://hackathon-dailytask.onrender.com");
   const { userInfo } = useContext(UserContext);
 
   return (

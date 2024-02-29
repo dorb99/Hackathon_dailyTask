@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
@@ -15,9 +15,7 @@ const UserProvider = ({ children }) => {
     getAllStudents();
     localStorage.setItem("userInfo", JSON.stringify(Info.username));
     setUserInfo(Info);
-    navigate("/userHome");
   };
-
 
   const createUserAction = async (newUser) => {
     try {
@@ -55,7 +53,6 @@ const UserProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      console.error(error.response.data);
       return alert("username incorrect");
     }
   };
@@ -66,7 +63,7 @@ const UserProvider = ({ children }) => {
       if (response.status === 405) {
         return alert(`Username incorrect `);
       } else if (response.status === 200) {
-        updateUser(response.data);
+        enterUser(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -101,22 +98,22 @@ const UserProvider = ({ children }) => {
       console.error(error);
     }
   };
-  const deleteQuestion= async(info)=>{
-    const send ={
+  const deleteQuestion = async (info) => {
+    const send = {
       questionId: info.questionId,
-      userId: userInfo?._id
-    }
-    try{
+      userId: userInfo?._id,
+    };
+    try {
       const response = await axios.post(
         `${URL}/api/question/updateQuestion`,
         send
       );
       console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
       console.log(response.data);
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const answerQuestionAction = async (info) => {
     const answer = {
@@ -172,7 +169,6 @@ const UserProvider = ({ children }) => {
         `${URL}/api/user/findAllQuestions/${id}`
       );
       if (response.status === 200) setLeftQuestions(response.data);
-     
     } catch (error) {
       console.error(error);
     }
@@ -184,12 +180,11 @@ const UserProvider = ({ children }) => {
       const response = await axios.get(
         `${URL}/api/question/findQuestion/${question}`
       );
-      if (response.status === 200) return (response.data);
+      if (response.status === 200) return response.data;
     } catch (error) {
       console.error(error);
     }
   };
-
 
   const logout = async () => {
     try {
@@ -203,11 +198,11 @@ const UserProvider = ({ children }) => {
 
   useEffect(
     () => {
-      const checkId = JSON.parse(
-        localStorage.getItem("userInfo", JSON.stringify())
-      );
-      if (checkId) getByUserName(checkId);
-      else navigate("/");
+      const checkId = localStorage.getItem("userInfo", JSON.stringify());
+      if (checkId) {
+        const check = JSON.parse(checkId);
+        getByUserName(check);
+      } else navigate("/");
     },
     [],
     [userInfo]
@@ -231,7 +226,7 @@ const UserProvider = ({ children }) => {
     findQuestion,
     logout,
     findAllQuestions,
-    deleteQuestion
+    deleteQuestion,
   };
 
   return (

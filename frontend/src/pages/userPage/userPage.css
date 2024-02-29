@@ -59,6 +59,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
+.classesContainer{
+  overflow-y: scroll;
+  height: 16rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 
 .checkboxInput {
   color: #fff;
@@ -150,4 +156,29 @@
 }
 .hasQuestion{
   background-color: #00ff00;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom right, #61ffca 0%, #08ffad 100%);
+  border-radius: 12px;
+  transition: all 0.3 ease-in-out;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom right, #10493c 0%, #0e3b54 100%);
+  border-radius: 12px;
+  transition: all 0.3 ease-in-out;
+}
+
+/* Define the track style */
+.scroll::-webkit-scrollbar-track {
+  background-color: #152721;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Define the button style */
+
+/* Define the button style when being hovered over */
+.scroll::-webkit-scrollbar-button:hover {
+  background-color: #999999;
 }
