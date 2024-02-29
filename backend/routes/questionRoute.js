@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const questionController = require('../controllers/quistionsController');
+const questionController = require('../controllers/questionController');
 
 router.route("/create")
 .post(questionController.createQuestion)
@@ -12,8 +12,7 @@ router.route("/findQuestion/:id")
 .get(questionController.findQuestion);
 router.route("/deleteQuestion")
 .delete(questionController.findAndDeleteQuestion)
-router.route("/updateQuestion")
-.patch(questionController.findAndUpdateQuestion)
+
 
 
 module.exports = router;

@@ -3,9 +3,11 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./createQuestionPage.css";
 import { UserContext } from "../../components/userContext";
+import { SocketContext } from "../../components/socketContext";
 
 const createQuestionPage = () => {
   const { addQuestionAction } = useContext(UserContext);
+  const { sendQuestion } = useContext(SocketContext);
   const location = useLocation();
   const room = location.state;
   // console.log(room)
@@ -13,12 +15,13 @@ const createQuestionPage = () => {
     question: "",
     answers: [],
     correctAnswer: "",
-    roomId: "math12",
+    roomId: "math120",
   });
 
   const handleSent = (e) => {
     e.preventDefault();
     addQuestionAction(newQuestion);
+    sendQuestion(newQuestion)
   };
 
   return (
@@ -102,7 +105,7 @@ const createQuestionPage = () => {
             }}
           />
           <button type="submit" className="submitBtn">
-            Sign in
+            create question
           </button>
         </form>
       </div>
