@@ -94,6 +94,17 @@ exports.addClass = async (req, res) => {
     res.status(500).send(error);
   }
 };
+exports.findAllQuestions = async (req, res) => {
+  const id = req.params.id;
+  if (!id) return res.status(404).send("missing id");
+  try {
+    const allQuestions = await Question.find({ students: id });
+    if (!allQuestions) return res.status(405).send("couldnt find user");
+    res.status(200).send(allQuestions);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 exports.answerQuestion = async (req, res) => {
   const { userId, questionId, answer } = req.body;

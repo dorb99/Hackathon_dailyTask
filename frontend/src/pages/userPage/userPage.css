@@ -13,7 +13,7 @@
   /* Add any other styles for the active state */
 }
 
-.addRoom {
+.mediumContainer {
   padding: 16px;
   margin: 10px;
   width: fit-content;
@@ -136,10 +136,6 @@
   font-size: 15px;
 }
 
-.classBtn:hover {
-  background: #c4e201;
-}
-
 .classBtn > svg {
   width: 34px;
   margin-left: 10px;
@@ -152,4 +148,7 @@
 
 .classBtn:active {
   transform: scale(0.95);
+}
+.hasQuestion{
+  background-color: #00ff00;
 }
