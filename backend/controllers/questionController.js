@@ -43,9 +43,9 @@ exports.findQuestionById = async (req, res) => {
 exports.updateQuestion = async (req, res) => {
   try {
     const questionId = req.body.questionId;
-    const studentIdToRemove = req.body.id;
+    const studentIdToRemove = req.body.userId;
     const question = await Question.findById(questionId);
-    const studentIndex = question.students.findIndex(student => student.id === studentIdToRemove);
+    const studentIndex = question.students.findIndex(student => student === studentIdToRemove);
     if (studentIndex !== -1) {
       question.students.splice(studentIndex, 1);
       await question.save(); 
