@@ -5,7 +5,6 @@
   justify-content: center;
   min-height: 100vh;
   overflow-y: scroll;
-  padding: 6rem;
 }
 .checkboxInput.active {
   background-color: #00ff00; /* Set the color you want for the active state */

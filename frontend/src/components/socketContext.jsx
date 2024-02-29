@@ -10,7 +10,8 @@ const SocketProvider = ({ children }) => {
   const navigate = useNavigate();
   const socket = Socket();
   const [question, setQuestion] = useState({});
-  const { userInfo, addClass } = useContext(UserContext);
+  const { userInfo, addClass, setLeftQuestions, leftQuestions, findQuestion } =
+    useContext(UserContext);
   const URL = import.meta.env.VITE_SERVER_URL;
 
   const createClassRoom = async (info) => {
@@ -23,11 +24,10 @@ const SocketProvider = ({ children }) => {
     try {
       const response = await axios.post(`${URL}/api/room/create`, room);
       if (response.status === 200) return alert("great!");
-      else if(response.status === 404){
+      else if (response.status === 404) {
         return alert("not enough info");
-      }else if(response.status === 405){
-        return alert("info incorrect")
-
+      } else if (response.status === 405) {
+        return alert("info incorrect");
       }
     } catch {
       (error) => {
@@ -70,23 +70,27 @@ const SocketProvider = ({ children }) => {
     console.log(question);
     setQuestion(question);
   };
-  useEffect(() => {
-    socket.on("new_Question", handleNewQuestion);
-    socket.on("latestQuestion", handleLastQuestion);
-    socket.on("entered_room", (classId) => console.log(classId));
 
+  const handleRecivedQuestion = async (question) => {
+    console.log("lol");
+    console.log(question);
+    const fullQuestion = await findQuestion(question);
+    const newLeft = leftQuestions;
+    newLeft.push(fullQuestion);
+    setLeftQuestions(newLeft);
+  };
+
+  useEffect(() => {
     return () => {
       socket.off("new_Question", handleNewQuestion);
       socket.off("latestQuestion", handleLastQuestion);
       socket.disconnect();
     };
   }, []);
+
   socket.on("new_Question", handleNewQuestion);
   socket.on("latestQuestion", handleLastQuestion);
-  socket.on("entered_room", (classId) => {console.log(classId)});
-  socket.on("receivedQuestion", (question) => {
-    console.log(question);
-  });
+  socket.on("receivedQuestion", handleRecivedQuestion);
 
   const contextValues = {
     // varibales

@@ -8,12 +8,6 @@ const questionPresentPage = (props) => {
   const { userInfo, answerQuestionAction } = useContext(UserContext);
   const location = useLocation();
   const { question } = location.state;
-  // const question = {
-  //   id: "65df43efbdeab5092c52e7ce",
-  //   question: "what is 2+2",
-  //   answers: ["8", "5", "4", "1231"],
-  //   correctAnswer: "2",
-  // };
   console.log(question); 
   const navigate = useNavigate();
   const [buttonClicked, setButtonClicked] = useState(false);
