@@ -12,10 +12,9 @@ function UserPage() {
   const [createOption, setCreateOption] = useState(false);
   const [allClasses, setAllClasses] = useState();
   const [leftRooms, setLeftRooms] = useState([]);
-  const [showStatus, setShowStatus] = useState({ boolean: false, data: null });
   const [selectedClassIndex, setSelectedClassIndex] = useState(10);
   const navigate = useNavigate();
-  const [helper, setHelper]= useState(false)
+  const [helper, setHelper] = useState(false);
 
   const handleRoomClick = (index) => {
     const room = allClasses[index];
@@ -31,29 +30,21 @@ function UserPage() {
     navigate("/createQuestionPage", { state: { roomId } });
   };
 
-  const handleShowStatus = (index) => {
-    const newStatus = showStatus;
-    newStatus.boolean = !newStatus.boolean;
-    newStatus.data = allClasses[index].students;
-    setShowStatus(newStatus);
-    console.log(newStatus);
-  };
-
   const handleMoreOptions = (index) => {
     if (index === selectedClassIndex) setSelectedClassIndex(10);
     else setSelectedClassIndex(index);
   };
 
   useEffect(() => {
-    setLeftRooms(prevLeftRooms => {
-      const newLeftRooms = leftQuestions.map(question => question.roomId);
+    setLeftRooms((prevLeftRooms) => {
+      const newLeftRooms = leftQuestions.map((question) => question.roomId);
       return newLeftRooms;
     });
   }, [leftQuestions]);
 
   useEffect(
     () => {
-      setHelper(!helper)
+      setHelper(!helper);
       findAllQuestions();
       setAllClasses(userInfo?.classes);
 
@@ -61,11 +52,9 @@ function UserPage() {
         // setAllClasses([]);
       };
     },
-    [],[userInfo]
+    [],
+    [userInfo]
   );
-  useEffect(() => {
-    setLeftRooms(leftQuestions.map((question) => question.roomId));
-  }, [leftQuestions]);
 
   return (
     <div className="page">
@@ -76,7 +65,7 @@ function UserPage() {
             <button
               key={element}
               onClick={() => handleRoomClick(index)}
-              className={`classBtn ${
+              className={`classBtn stdBtn ${
                 leftRooms.includes(element) ? "hasQuestion" : ""
               }`}
             >
@@ -93,7 +82,7 @@ function UserPage() {
       ) : userInfo?.role === "teacher" ? (
         <>
           <button
-            className="classBtn"
+            className="classBtn createBtn"
             onClick={() => setCreateOption(!createOption)}
           >
             Create classroom
@@ -101,7 +90,6 @@ function UserPage() {
           {createOption ? (
             <CreateClass />
           ) : (
-
             <div className="classesContainer scroll">
               {allClasses?.map((element, index) => (
                 <div className="classRoom" key={element}>
@@ -112,25 +100,13 @@ function UserPage() {
                     {element}
                   </button>
                   {selectedClassIndex === index && (
-                    <div className="classDetails">
-                      <button onClick={() => handleSendQuestion(index)}>
-                        Send Question
-                      </button>
-                      {!showStatus.boolean ? (
-                        <button onClick={() => handleShowStatus(index)}>
-                          Check Status
-                        </button>
-                      ) : (
-                        <div>
-                          {showStatus.boolean && <p>{showStatus.data}</p>}
-                        </div>
-                      )}
-                    </div>
+                    <button onClick={() => handleSendQuestion(index)}>
+                      Send Question
+                    </button>
                   )}
                 </div>
               ))}
             </div>
-
           )}
           {allClasses?.length === 0 && (
             <HourglassTopIcon
