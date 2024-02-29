@@ -45,7 +45,7 @@ function UserPage() {
       {userInfo?.role === "student" ? (
         <div className="maping_Container">
           {allClasses?.map((element, index) => (
-            <button key={element} onClick={() => handleMoreOptions(index,!fullTable)}>
+            <button key={element} onClick={() => handleMoreOptions(index,!fullTable)}className="classBtn">
               {element}
             </button>
           ))}
@@ -56,31 +56,28 @@ function UserPage() {
       ) : userInfo?.role === "teacher" ? (
         <div className="maping_Container">
           <button
-            className="createOption"
+           className="classBtn"
             onClick={() => setCreateOption(!createOption)}
           >
             Create classroom
           </button>
+
           {createOption ? (
             <CreateClass roomId={roomId} />
           ) : (
             allClasses?.map((element, index) => (
               <div className="classRoom" key={element}>
-                <button onClick={() => setFullTable(!fullTable)}>
-                  {element}
-                </button>
-                {fullTable && (
-                  <div>
-                    <button onClick={() => handleSendQuestion(index)}>
-                      Send Question
-                    </button>
-                    <button onClick={() => handleShowStatus(index)}>
-                      Check Status
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))
+                 <button onClick={() => handleMoreOptions(index,!fullTable)}className="classBtn">{element}</button>
+              {selectedClassIndex === index && fullTable && (
+                <div className="classDetails">
+                  <button onClick={handleSendQuestion}>Send Question</button>
+                  <button onClick={handleShowStatus}>Check Status</button>
+                </div>
+              )}
+            </div>
+          ))}
+          {allClasses?.length ===0 &&(
+          <HourglassTopIcon className="my-icon" style={{ fontSize: '48px' }} />
 
           )}
         </div>
