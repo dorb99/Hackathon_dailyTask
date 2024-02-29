@@ -45,7 +45,7 @@ function UserPage() {
       {userInfo?.role === "student" ? (
         <div className="maping_Container">
           {allClasses?.map((element, index) => (
-            <button key={element} onClick={() => handleMoreOptions(index,!fullTable)}>
+            <button key={element} onClick={() => handleMoreOptions(index,!fullTable)}className="classBtn">
               {element}
             </button>
           ))}
@@ -57,14 +57,14 @@ function UserPage() {
         <div className="maping_Container">
           {createOption ? <CreateClass room={roomId} /> : null}
           <button
-            className="createOption"
+           className="classBtn"
             onClick={() => setCreateOption(!createOption)}
           >
             Create classroom
           </button>
           {allClasses?.map((element, index) => (
             <div className="classRoom" key={element}>
-              <button onClick={() => handleMoreOptions(index,!fullTable)}>{element}</button>
+              <button onClick={() => handleMoreOptions(index,!fullTable)}className="classBtn">{element}</button>
               {selectedClassIndex === index && fullTable && (
                 <div className="classDetails">
                   <button onClick={handleSendQuestion}>Send Question</button>

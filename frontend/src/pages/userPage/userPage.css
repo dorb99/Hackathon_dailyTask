@@ -121,3 +121,35 @@
   padding: 5px;
   z-index: 1; /* Ensure it appears above other elements */
 }
+
+.classBtn {
+  cursor: pointer;
+  font-weight: 700;
+  font-family: Helvetica,"sans-serif";
+  transition: all .2s;
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: #cfef00;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.classBtn:hover {
+  background: #c4e201;
+}
+
+.classBtn > svg {
+  width: 34px;
+  margin-left: 10px;
+  transition: transform .3s ease-in-out;
+}
+
+.classBtn:hover svg {
+  transform: translateX(5px);
+}
+
+.classBtn:active {
+  transform: scale(0.95);
+}
