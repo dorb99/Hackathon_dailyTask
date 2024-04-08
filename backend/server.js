@@ -1,10 +1,10 @@
 const express = require("express");
-const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const app = express();
 
 app.use(cors());
 app.use(express.json());
